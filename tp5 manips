@@ -1,0 +1,41 @@
+docker exec -it mariadbtest /bin/bash
+root@6582d209247a:/# hostname -i
+172.17.0.4
+
+
+
+
+
+
+
+TP6 SECURISATION
+
+ nmap -p- 54.37.15.123
+Starting Nmap 7.70 ( https://nmap.org ) at 2024-08-24 16:09 UTC
+Nmap scan report for vps-d4894e76.vps.ovh.net (54.37.15.123)
+Host is up (0.00011s latency).
+Not shown: 65532 closed ports
+PORT      STATE SERVICE
+53/tcp    open  domain
+80/tcp    open  http
+49153/tcp open  unknown
+
+
+
+docker exec -it web3-php-1 /bin/bash
+root@55680a310731:/var/www/html# hostname -i
+192.168.144.3
+192.168.128.3
+
+quand on est dans web on arrive pas a ping 192.168.144.3 donc c'est la db
+et on arrive a ping 192.168.128.3
+
+ping 192.168.128.3
+PING 192.168.128.3 (192.168.128.3) 56(84) bytes of data.
+64 bytes from 192.168.128.3: icmp_seq=1 ttl=64 time=0.085 ms
+64 bytes from 192.168.128.3: icmp_seq=2 ttl=64 time=0.088 ms
+64 bytes from 192.168.128.3: icmp_seq=3 ttl=64 time=0.085 ms
+^C
+
+
+CA MARCHE MTN AJOUTER LES SERVER API ET DB
