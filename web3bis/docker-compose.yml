@@ -1,0 +1,52 @@
+networks:
+  api:
+  db:
+
+services:
+  nginx:
+    build: .
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./index.html:/var/www/html/index.html
+      - ./index2.html:/var/www/html/blog/index2.html
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./products.php:/var/www/html/products.php
+      - ./certif/nginx-selfsigned.crt:/etc/ssl/certs/nginx-selfsigned.crt
+      - ./certif/nginx-selfsigned.key:/etc/ssl/private/nginx-selfsigned.key
+      - ../zone/:/etc/letsencrypt/live/
+    depends_on:
+      - php
+    networks:
+      - api
+
+  mariadb:
+    image: mariadb:11.1
+    environment:
+      MARIADB_ROOT_PASSWORD: "mypass"           # Mot de passe root pour MariaDB
+      MARIADB_DATABASE: "woodytoys"             # Nom de la base de données à créer
+      MARIADB_USER: "wt-user"                   # Nom de l'utilisateur
+      MARIADB_PASSWORD: "wt-pwd"                # Mot de passe pour l'utilisateur
+    volumes:
+      - ./woodytoys.sql:/docker-entrypoint-initdb.d/woodytoys.sql
+      - ./my-resolve.cnf:/etc/mysql/conf.d/my-resolve.cnf
+    networks:
+      - db
+
+  php:
+    build: ./php
+    volumes:
+      - ./index.html:/var/www/html/index.html
+      - ./index2.html:/var/www/html/blog/index2.html
+      - ./products.php:/var/www/html/products.php
+    environment:
+      MARIADB_HOST: "mariadb"                    # Nom du service MariaDB (qui est le nom du conteneur)
+      MARIADB_DATABASE: "woodytoys"              # Nom de la base de données
+      MARIADB_USER: "wt-user"                    # Nom de l'utilisateur pour la connexion
+      MARIADB_PASSWORD: "wt-pwd"                 # Mot de passe pour l'utilisateur
+    depends_on:
+      - mariadb
+    networks:
+      - api
+      - db

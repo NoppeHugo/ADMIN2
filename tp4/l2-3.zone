@@ -1,0 +1,23 @@
+$TTL 3600
+$ORIGIN l2-3.ephec-ti.be.
+
+@       IN      SOA     ns1.l2-3.ephec-ti.be. admin.l2-3.ephec-ti.be. (
+                            2023040901 ; Serial
+                            7200       ; Refresh
+                            1200       ; Retry
+                            2419200    ; Expire
+                            3600 )     ; Negative Cache TTL
+
+; Définition des serveurs de noms
+@       IN      NS      ns1.l2-3.ephec-ti.be.
+
+; Enregistrements A pour les serveurs de noms
+ns1     IN      A       54.37.15.123
+
+; Enregistrements A supplémentaires
+www     IN      A       54.37.15.123
+mail    IN      A       54.37.15.123
+
+blog.l2-3.ephec-ti.be.  CNAME  www.l2-3.ephec-ti.be.
+
+_acme-challenge.l2-3.ephec-ti.be.   IN      TXT     D9bto5UqXJH4f3lriqeHJIeuwUt2flrzKurBx1a23wc
